@@ -14,7 +14,8 @@ export class AuthComponent implements OnInit {
   errorMessage = null;
   isLoading = false;
 
-  constructor(private fb: FormBuilder, private authService: AuthService) { }
+  constructor(private fb: FormBuilder, private authService: AuthService) {
+  }
 
   ngOnInit(): void {
     this.form = this.fb.group({
@@ -30,7 +31,7 @@ export class AuthComponent implements OnInit {
   loginSignUp(form: any) {
     form.value.returnSecureToken = true;
     console.log(form.value)
-    if(form.valid && !this.isLogin) {
+    if (form.valid && !this.isLogin) {
       this.isLoading = true;
       this.authService.signUp(form.value)
         .subscribe({
@@ -39,8 +40,9 @@ export class AuthComponent implements OnInit {
             this.isLoading = false;
           },
           error: (error) => {
-
-      }
+            this.isLoading = false;
+            this.errorMessage = error;
+          }
         })
       this.form.reset();
     }
