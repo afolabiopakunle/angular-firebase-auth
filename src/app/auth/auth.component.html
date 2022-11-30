@@ -2,6 +2,10 @@
   <div class="col-md-8 pb-4">
     <h4>{{ isLogin ? 'Login' : 'Sign up'}}</h4>
     <form [formGroup]="form" (ngSubmit)="loginSignUp(form)">
+      <div class="alert alert-danger d-flex justify-content-between align-items-center" (click)="dismissError()" *ngIf="errorMessage">
+        {{ errorMessage }}
+        <button class="btn btn-danger btn-sm">Dismiss</button>
+      </div>
       <div class="form-floating mb-3">
         <input type="email" formControlName="email" class="form-control" id="floatingInput"
                placeholder="name@example.com">

@@ -11,6 +11,8 @@ export class AuthComponent implements OnInit {
 
   form!: FormGroup;
   isLogin = true;
+  errorMessage = null;
+
   constructor(private fb: FormBuilder, private authService: AuthService) { }
 
   ngOnInit(): void {
@@ -32,11 +34,17 @@ export class AuthComponent implements OnInit {
         .subscribe({
           next: (response) => {
             console.log(response)
-          }
+          },
+          error: (error) => {
+            this.errorMessage = error.error.error.message;
+      }
         })
       this.form.reset();
     }
+  }
 
+  dismissError() {
+    this.errorMessage = null
   }
 
 }
