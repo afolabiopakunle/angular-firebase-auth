@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-recipes',
@@ -9,7 +10,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class RecipesComponent implements OnInit {
 
   form!: FormGroup;
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder, private authService: AuthService) { }
 
   ngOnInit(): void {
     this.form = this.fb.group({
@@ -19,6 +20,12 @@ export class RecipesComponent implements OnInit {
   }
 
   submit() {
-    console.log(this.form.value)
+    this.authService.postRecipe(this.form.value)
+      .subscribe({
+        next: (data) => {
+          console.log(data)
+          this.form.reset()
+        }
+      })
   }
 }
