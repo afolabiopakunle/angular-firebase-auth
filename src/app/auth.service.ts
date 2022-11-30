@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { catchError, throwError } from 'rxjs';
+import { environment } from '../environments/environment';
 
 interface IAuthResponse {
   idToken: string;
@@ -8,6 +9,7 @@ interface IAuthResponse {
   refreshToken: string;
   expiresIn: string;
   localId: string;
+  registered?: boolean;
 }
 
 @Injectable({
@@ -29,7 +31,7 @@ export class AuthService {
 
   signUp(data: any) {
     return this.http.post<IAuthResponse>(`https://identitytoolkit.googleapis.com/v1/accounts:signUp`, data, {
-      params: new HttpParams().append('key', 'AIzaSyCX41Q575fg_yCG9HtUZyFuVmCw3vTUZqk')
+      params: new HttpParams().append('key', environment.API_kEY)
     })
       .pipe(catchError(errorRes => {
         let errorMessage = '';
@@ -42,6 +44,16 @@ export class AuthService {
         }
         return throwError(() => errorMessage)
 
+      }))
+  }
+
+  signIn(data: any) {
+    return this.http.post<IAuthResponse>('https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword', data, {
+      params: new HttpParams().append('key', environment.API_kEY)
+    })
+      .pipe(catchError(errorRes => {
+        console.log(errorRes)
+        return throwError(() => errorRes)
       }))
   }
 

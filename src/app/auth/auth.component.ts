@@ -30,13 +30,11 @@ export class AuthComponent implements OnInit {
 
   loginSignUp(form: any) {
     form.value.returnSecureToken = true;
-    console.log(form.value)
     if (form.valid && !this.isLogin) {
       this.isLoading = true;
       this.authService.signUp(form.value)
         .subscribe({
           next: (response) => {
-            console.log(response);
             this.isLoading = false;
           },
           error: (error) => {
@@ -45,6 +43,19 @@ export class AuthComponent implements OnInit {
           }
         })
       this.form.reset();
+    } else {
+      this.isLoading = true;
+      this.authService.signIn(form.value)
+        .subscribe({
+          next: (response) => {
+            this.isLoading = false;
+            console.log(response)
+          },
+          error: (error) => {
+            this.isLoading = false;
+            this.errorMessage = error;
+      }
+        })
     }
   }
 
