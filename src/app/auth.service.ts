@@ -14,4 +14,8 @@ export class AuthService {
     return this.http.post(`${this.baseUrl}recipes.json`, data)
   }
 
+  getRecipes() {
+    return this.http.get(`${this.baseUrl}recipes.json`)
+  }
+
 }

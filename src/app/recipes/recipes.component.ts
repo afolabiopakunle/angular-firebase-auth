@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../auth.service';
+import { IRecipe } from '../recipe';
+import { map } from 'rxjs';
 
 @Component({
   selector: 'app-recipes',
@@ -10,6 +12,8 @@ import { AuthService } from '../auth.service';
 export class RecipesComponent implements OnInit {
 
   form!: FormGroup;
+  recipes: IRecipe[] = [];
+
   constructor(private fb: FormBuilder, private authService: AuthService) { }
 
   ngOnInit(): void {
@@ -17,6 +21,9 @@ export class RecipesComponent implements OnInit {
       title: ['', [Validators.required]],
       content: ['', Validators.required]
     })
+
+    this.getRecipes();
+
   }
 
   submit() {
@@ -25,6 +32,22 @@ export class RecipesComponent implements OnInit {
         next: (data) => {
           console.log(data)
           this.form.reset()
+        }
+      })
+  }
+
+  getRecipes() {
+    this.authService.getRecipes()
+      .pipe(map((recipeData: any) => {
+        const recipeArray = [];
+        for(const key in recipeData) {
+          recipeArray.push({...recipeData[key as keyof IRecipe], id: key})
+        }
+        return recipeArray;
+      }))
+      .subscribe({
+        next: (recipes) => {
+          this.recipes = recipes;
         }
       })
   }
