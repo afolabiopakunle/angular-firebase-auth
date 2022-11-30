@@ -1,1 +1,19 @@
-<p>auth works!</p>
+<div class="row">
+  <div class="col-md-8 pb-4">
+    <h4>{{ isLogin ? 'Login' : 'Sign up'}}</h4>
+    <form [formGroup]="form" (ngSubmit)="login(form)">
+      <div class="form-floating mb-3">
+        <input type="email" formControlName="email" class="form-control" id="floatingInput"
+               placeholder="name@example.com">
+        <label for="floatingInput">Email address</label>
+      </div>
+      <div class="form-floating mb-3">
+        <input type="password" formControlName="password" class="form-control" id="floatingPassword"
+               placeholder="Password">
+        <label for="floatingPassword">Password</label>
+      </div>
+      <button class="btn btn-primary btn-lg" type="submit" [disabled]="form.invalid">{{ isLogin ? 'Login' : 'Sign up'}}</button> |
+      <button class="btn btn-primary btn-lg" type="button" (click)="switchMode()">Switch to {{ isLogin ? 'Sign up' : 'Login'}}</button>
+    </form>
+  </div>
+</div>
