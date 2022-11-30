@@ -1,1 +1,13 @@
-<p>recipes works!</p>
+<div class="col-md-8">
+  <form [formGroup]="form" (ngSubmit)="submit()">
+  <div class="form-floating mb-3">
+    <input formControlName="title" type="text" class="form-control" id="title" placeholder="name@example.com">
+    <label for="title">Recipe title</label>
+  </div>
+  <div class="form-floating">
+    <textarea style="height: 150px" formControlName="content" class="form-control" placeholder="Drop recipe contents here" id="content"></textarea>
+    <label for="content">Contents</label>
+  </div>
+    <button class="btn btn-success mt-3" [disabled]="form.invalid">Submit</button>
+  </form>
+</div>
