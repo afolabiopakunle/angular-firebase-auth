@@ -1,5 +1,13 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
+
+interface IAuthResponse {
+  idToken: string;
+  email: string;
+  refreshToken: string;
+  expiresIn: string;
+  localId: string;
+}
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +24,12 @@ export class AuthService {
 
   getRecipes() {
     return this.http.get(`${this.baseUrl}recipes.json`)
+  }
+
+  signUp(data: any) {
+   return this.http.post<IAuthResponse>(`https://identitytoolkit.googleapis.com/v1/accounts:signUp`, data, {
+      params: new HttpParams().append('key', 'AIzaSyCX41Q575fg_yCG9HtUZyFuVmCw3vTUZqk')
+    })
   }
 
 }

@@ -1,7 +1,7 @@
 <div class="row">
   <div class="col-md-8 pb-4">
     <h4>{{ isLogin ? 'Login' : 'Sign up'}}</h4>
-    <form [formGroup]="form" (ngSubmit)="login(form)">
+    <form [formGroup]="form" (ngSubmit)="loginSignUp(form)">
       <div class="form-floating mb-3">
         <input type="email" formControlName="email" class="form-control" id="floatingInput"
                placeholder="name@example.com">

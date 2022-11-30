@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-auth',
@@ -10,7 +11,7 @@ export class AuthComponent implements OnInit {
 
   form!: FormGroup;
   isLogin = true;
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder, private authService: AuthService) { }
 
   ngOnInit(): void {
     this.form = this.fb.group({
@@ -23,11 +24,19 @@ export class AuthComponent implements OnInit {
     this.isLogin = !this.isLogin;
   }
 
-  login(form: any) {
-    if(form.valid) {
-      console.log(form.value);
+  loginSignUp(form: any) {
+    form.value.returnSecureToken = true;
+    console.log(form.value)
+    if(form.valid && !this.isLogin) {
+      this.authService.signUp(form.value)
+        .subscribe({
+          next: (response) => {
+            console.log(response)
+          }
+        })
+      this.form.reset();
     }
-    this.form.reset()
+
   }
 
 }
