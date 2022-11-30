@@ -12,6 +12,7 @@ export class AuthComponent implements OnInit {
   form!: FormGroup;
   isLogin = true;
   errorMessage = null;
+  isLoading = false;
 
   constructor(private fb: FormBuilder, private authService: AuthService) { }
 
@@ -30,13 +31,15 @@ export class AuthComponent implements OnInit {
     form.value.returnSecureToken = true;
     console.log(form.value)
     if(form.valid && !this.isLogin) {
+      this.isLoading = true;
       this.authService.signUp(form.value)
         .subscribe({
           next: (response) => {
-            console.log(response)
+            console.log(response);
+            this.isLoading = false;
           },
           error: (error) => {
-            this.errorMessage = error.error.error.message;
+
       }
         })
       this.form.reset();
