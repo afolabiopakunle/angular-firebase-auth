@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { AuthService, IAuthResponse } from '../auth.service';
 import { Observable } from 'rxjs';
+import { User } from '../user';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-auth',
@@ -15,7 +17,7 @@ export class AuthComponent implements OnInit {
   errorMessage = null;
   isLoading = false;
 
-  constructor(private fb: FormBuilder, private authService: AuthService) {
+  constructor(private fb: FormBuilder, private authService: AuthService, private router: Router) {
   }
 
   ngOnInit(): void {
@@ -27,6 +29,7 @@ export class AuthComponent implements OnInit {
     });
     // this.switchForm();
   }
+
 
   switchMode() {
     this.isLogin = !this.isLogin;
@@ -50,7 +53,7 @@ export class AuthComponent implements OnInit {
     authObs.subscribe({
         next: (response) => {
           this.isLoading = false;
-          console.log(response);
+          this.router.navigate(['recipes']);
         },
         error: (error) => {
           this.isLoading = false;
