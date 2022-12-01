@@ -21,16 +21,16 @@ export class AuthComponent implements OnInit {
   ngOnInit(): void {
     this.form = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
-      firstname: ['', [Validators.required]],
-      lastname: ['', [Validators.required]],
+      // firstname: ['', [Validators.required]],
+      // lastname: ['', [Validators.required]],
       password: ['', [Validators.required, Validators.minLength(8)]]
     });
-    this.switchForm();
+    // this.switchForm();
   }
 
   switchMode() {
     this.isLogin = !this.isLogin;
-    this.switchForm();
+    // this.switchForm();
     this.form.reset();
   }
 
@@ -64,15 +64,15 @@ export class AuthComponent implements OnInit {
     this.errorMessage = null
   }
 
-  switchForm() {
-    if (this.isLogin) {
-      this.form.controls['lastname'].disable()
-      this.form.controls['firstname'].disable();
-    } else {
-      this.form.controls['lastname'].enable();
-      this.form.controls['firstname'].enable();
-    }
-    this.form.updateValueAndValidity()
-  }
+  // switchForm() {
+  //   if (this.isLogin) {
+  //     this.form.controls['lastname'].disable()
+  //     this.form.controls['firstname'].disable();
+  //   } else {
+  //     this.form.controls['lastname'].enable();
+  //     this.form.controls['firstname'].enable();
+  //   }
+  //   this.form.updateValueAndValidity()
+  // }
 
 }
