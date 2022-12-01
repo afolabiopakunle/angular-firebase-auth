@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
-import { AuthService } from '../auth.service';
+import { AuthService, IAuthResponse } from '../auth.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-auth',
@@ -30,33 +31,28 @@ export class AuthComponent implements OnInit {
 
   loginSignUp(form: any) {
     form.value.returnSecureToken = true;
+    let authObs: Observable<IAuthResponse>;
+
     if (form.valid && !this.isLogin) {
       this.isLoading = true;
-      this.authService.signUp(form.value)
-        .subscribe({
-          next: (response) => {
-            this.isLoading = false;
-          },
-          error: (error) => {
-            this.isLoading = false;
-            this.errorMessage = error;
-          }
-        })
+      authObs = this.authService.signUp(form.value)
       this.form.reset();
     } else {
       this.isLoading = true;
-      this.authService.signIn(form.value)
-        .subscribe({
-          next: (response) => {
-            this.isLoading = false;
-            console.log(response)
-          },
-          error: (error) => {
-            this.isLoading = false;
-            this.errorMessage = error;
-      }
-        })
+      authObs = this.authService.signIn(form.value)
     }
+
+    authObs.subscribe({
+        next: (response) => {
+          this.isLoading = false;
+          console.log(response);
+        },
+        error: (error) => {
+          this.isLoading = false;
+          this.errorMessage = error;
+        }
+      })
+
   }
 
   dismissError() {
